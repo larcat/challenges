@@ -56,7 +56,8 @@ RUN set -ex \
     && pip install pyOpenSSL \
     && pip install ndg-httpsclient \
     && pip install pyasn1 \
-###
+### Was neccessary for getting the containerized airflow instance working on my machine
+    # Source for the fix was https://github.com/puckel/docker-airflow/issues/499
     && pip install werkzeug==0.16.1 \
 ###   
     && apt-get purge --auto-remove -yqq $buildDeps \
