@@ -18,8 +18,9 @@
 ## TODOS
 1. Add in pagination/greater than 100 sources checks for `get_sources` -- it's close to 100.
 2. Add pagination handling for `get_topic_headlines` function -- When sources goes over 100 it could fail.
-3. Empty dataset handling for topic key word pipeline.
+3. Empty dataset/pandas df handling (writes empty objects at the moment.)
 4. Handling for maxing out current API-limits gracefully.
+5. Add mock data for the tests rather than the unneccessary API calls.
 
 ## Requirements
 - [x] Use Airflow to construct a new data pipeline (DAG) named 'tempus_challenge_dag'.
@@ -29,7 +30,7 @@
   - [x] For each news source, retrieve the top headlines.
     - [x] Top headlines must be flattened into a CSV file. CSV Filename: `<pipeline_execution_date>_top_headlines.csv`
     - [x] Result CSV must be uploaded to the following s3 location `<s3_bucket>/<source_name>`
-- [ ] The solution must contain at least one test for your headline transformation.
+- [x] The solution must contain at least one test for your headline transformation.
 - [x] The solution must be start-able via `make run`.
 - [x] The solution must be pep-8 compliant.
 - [x] Bonus: Build a separate pipeline that uses the following keywords instead of English news sources: Tempus Labs, Eric Lefkofsky, Cancer, Immunotherapy
