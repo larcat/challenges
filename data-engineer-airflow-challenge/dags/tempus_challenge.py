@@ -38,7 +38,7 @@ def get_headlines(manual_ids=None, **context):
     Going off of the 10 per source that seems to be true, and 100 max per pull
     Checked against the current total results for an all-sources call. Matched.
     """
-    # Control logic for testing dimensionality of resultd
+    # Control logic for testing dimensionality of result
     if manual_ids is None:
         source_ids = context['task_instance'] \
             .xcom_pull(task_ids='getting_sources')
@@ -67,19 +67,18 @@ def get_headlines(manual_ids=None, **context):
     # Because we can't guarantee the order headlines come in above, so we
     # break it apart after stitching the original df -- Again, mostly to
     # save API calls.
-    for source in articles_df['source.id'].unique().tolist():
-        cur_s3_obj = '{}{}/{}{}'.format(BUCKET, source, DATE_STR, SUFFIX)
-        cur_df = articles_df[articles_df['source.id'] == source]
-        cur_df.to_csv(cur_s3_obj, index=False)
+    if manual_ids is None:  # For testing
+        for source in articles_df['source.id'].unique().tolist():
+            cur_s3_obj = '{}{}/{}{}'.format(BUCKET, source, DATE_STR, SUFFIX)
+            cur_df = articles_df[articles_df['source.id'] == source]
+            cur_df.to_csv(cur_s3_obj, index=False)
     return {'expected_results': expected_results,
             'actual_results': actual_results}
 
 
 def get_topic_headlines(**context):
     """
-    Grabs the headlines for the identified sources in chunks.
-    Going off of the 10 per source that seems to be true, and 100 max per pull
-    Checked against the current total results for an all-sources call. Matched.
+    Grabs the headlines for the topics in chunks.
     """
     everything_url = BASE_URL + 'everything'
     payload = {'pageSize': 100}
